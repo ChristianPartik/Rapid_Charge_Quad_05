@@ -16,10 +16,7 @@ import com.example.christian.rapid_charge_quad_05.R;
  */
 public class beleuchtung_fragment extends Fragment {
 
-    int Akkustand;
 
-    private ProgressBar progressBar;
-    private TextView textView;
 
 
     @Nullable
@@ -30,12 +27,5 @@ public class beleuchtung_fragment extends Fragment {
         return rootview;
     }
 
-    private void Edit_Akkustand() {
 
-        progressBar.findViewById(R.id.circle_progress_bar);
-        progressBar.setProgress(Akkustand);
-
-        textView.findViewById(R.id.compliance_percentage);
-        textView.setText(Integer.toString(Akkustand) + "%");
-    }
 }
