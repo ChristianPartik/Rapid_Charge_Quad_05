@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     private ConnectedThread mConnectedThread;
     private StringBuilder recDataString = new StringBuilder();
     private ProgressBar progressBar;
-    private TextView textView;
+    private TextView textView, online;
 
     Handler bluetoothIn;
 
@@ -80,11 +80,16 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
         //Bluetooth
+
+       final TextView empfangen = (TextView)findViewById(R.id.text_empfangen);
+
         btAdapter = BluetoothAdapter.getDefaultAdapter();               //Check if Bluetooth is supported on the device
 
         checkBTState();                                                 //Go into subroutine checkBTState
 
         Toast.makeText(getApplicationContext(), "Online", Toast.LENGTH_SHORT).show();
+       // online.findViewById(R.id.textview_online);
+       // online.setText("Online");
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -97,6 +102,9 @@ public class MainActivity extends AppCompatActivity
                         String dataInPrint = recDataString.substring(0, endOfLineIndex);    // extract string
                         int dataLength = dataInPrint.length();
 
+                        empfangen.setText(dataInPrint + " " + String.valueOf(dataLength));
+
+                        Akkustand = recDataString.substring(0,3);
                         textView.findViewById(R.id.compliance_percentage);
                         textView.setText(Akkustand + "%");
 
@@ -142,6 +150,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
 
             Toast.makeText(getApplicationContext(), "Auf Verbinden geklickt!", Toast.LENGTH_SHORT).show();
+
+
+
+            //I send a character when resuming.beginning transmission to check device is connected
+            //If it is not an exception will be thrown in the write method and finish() will be called
             return true;
         }
 
@@ -182,6 +195,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
         //create device and set the MAC address
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
@@ -206,9 +220,6 @@ public class MainActivity extends AppCompatActivity
         }
         mConnectedThread = new ConnectedThread(btSocket);
         mConnectedThread.start();
-
-        //I send a character when resuming.beginning transmission to check device is connected
-        //If it is not an exception will be thrown in the write method and finish() will be called
     }
 
     @Override
