@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity
     private static String address = "98:D3:31:40:4D:A9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     final int handlerState = 0;
-    String Akkustand, sensor1;
+    String  sensor1;
+    Integer Akkustand ;
 
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -82,46 +84,56 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
         //Bluetooth
 
-       final TextView empfangen = (TextView)findViewById(R.id.text_empfangen);
-        final TextView percent = (TextView)findViewById(R.id.compliance_percentage);
+
+
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();               //Check if Bluetooth is supported on the device
 
         checkBTState();                                                 //Go into subroutine checkBTState
 
         Toast.makeText(getApplicationContext(), "Online", Toast.LENGTH_SHORT).show();
-       // online.findViewById(R.id.textview_online);
-       // online.setText("Online");
+
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == handlerState) {                                     //if message is what we want
                     String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);                                      //keep appending to string until ~
+                    Toast.makeText(getApplicationContext(), "empfange", Toast.LENGTH_LONG).show();
                     int endOfLineIndex = recDataString.indexOf("#");                    // determine the end-of-line
                     if (endOfLineIndex > 0) {
 
                         String dataInPrint = recDataString.substring(0, endOfLineIndex);    // extract string
                         int dataLength = dataInPrint.length();
 
-                        empfangen.setText(dataInPrint + " " + String.valueOf(dataLength));
+                            String sensor0 = recDataString.substring(0, 3);             //get sensor value from string between indices 1-5
+
+                            TextView empfangen = (TextView) findViewById(R.id.text_empfangen);
+                            empfangen.setText(sensor0 + " " + dataLength );
+
+                             TextView percent = (TextView)findViewById(R.id.compliance_percentage);
+                            percent.setText(sensor0 + "%");
+
+                            try{
+                               int Akkustand = Integer.valueOf(sensor0);
+                                ProgressBar progressBar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+                                progressBar.setProgress(Akkustand);
+                            }catch (NumberFormatException nfm){
+
+                            Toast.makeText(getApplicationContext(), "Kann nicht konvertieren", Toast.LENGTH_LONG).show();
+                            }
 
 
-                        String sensor0 = recDataString.substring(0, 4);             //get sensor value from string between indices 1-5
+                            recDataString.delete(0, recDataString.length());                    //clear all string data
+                            // strIncom =" ";
+                            dataInPrint = " ";
 
-
-
-
-                        percent.setText(sensor0 + "%");
-
-
-                        progressBar.findViewById(R.id.circle_progress_bar);
-                        progressBar.setProgress(Integer.parseInt(String.valueOf(Akkustand)));
-
-                        recDataString.delete(0, recDataString.length());                    //clear all string data
-                        // strIncom =" ";
-                        dataInPrint = " ";
                     }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Text kleiner als 0.", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "nicht was wir wollen", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -171,6 +183,9 @@ public class MainActivity extends AppCompatActivity
                 btSocket.connect();
                 Toast.makeText(getBaseContext(), "Connected to Device", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "...Connected to Device...");
+
+                TextView online = (TextView)findViewById(R.id.textview_online);
+                online.setText("Online");
 
             } catch (IOException e) {
                 try {

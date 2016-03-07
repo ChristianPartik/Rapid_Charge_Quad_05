@@ -14,18 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.christian.rapid_charge_quad_05.R;
 import com.example.christian.rapid_charge_quad_05.MainActivity;
+import com.example.christian.rapid_charge_quad_05.R;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
 
 /**
  * Created by Christian on 06.03.2016.
  */
 public class akku_fragment extends Fragment {
+
+
 
 
     @Nullable
@@ -34,6 +32,16 @@ public class akku_fragment extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_akku, container, false);
 
 
+
+
+
         return rootview;
+    }
+
+    private class eingabe extends MainActivity{
+
+
+
+
     }
 }

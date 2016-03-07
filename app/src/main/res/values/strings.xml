@@ -7,4 +7,6 @@
     <string name="action_settings">Bluetooth connect</string>
 
     <string name="percent_value">70%</string>
+
+    <integer name="Akkustand">20</integer>
 </resources>

@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:max="100"
-        android:progress="70"
+        android:progress="@integer/Akkustand"
         android:rotation="-90"
         android:indeterminate="false"
         android:progressDrawable="@drawable/circle_progress_foreground" />
