@@ -1,5 +1,6 @@
 package com.example.christian.rapid_charge_quad_05;
 
+import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.bluetooth.BluetoothDevice;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     private static String address = "98:D3:31:40:4D:A9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     final int handlerState = 0;
-    String Akkustand;
+    String Akkustand, sensor1;
 
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     private ConnectedThread mConnectedThread;
     private StringBuilder recDataString = new StringBuilder();
     private ProgressBar progressBar;
-    private TextView textView, online;
+    private TextView textView, online, percent;
 
     Handler bluetoothIn;
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity
         //Bluetooth
 
        final TextView empfangen = (TextView)findViewById(R.id.text_empfangen);
+        final TextView percent = (TextView)findViewById(R.id.compliance_percentage);
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();               //Check if Bluetooth is supported on the device
 
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                 if (msg.what == handlerState) {                                     //if message is what we want
                     String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);                                      //keep appending to string until ~
-                    int endOfLineIndex = recDataString.indexOf("~");                    // determine the end-of-line
+                    int endOfLineIndex = recDataString.indexOf("#");                    // determine the end-of-line
                     if (endOfLineIndex > 0) {
 
                         String dataInPrint = recDataString.substring(0, endOfLineIndex);    // extract string
@@ -104,9 +106,14 @@ public class MainActivity extends AppCompatActivity
 
                         empfangen.setText(dataInPrint + " " + String.valueOf(dataLength));
 
-                        Akkustand = recDataString.substring(0,3);
-                        textView.findViewById(R.id.compliance_percentage);
-                        textView.setText(Akkustand + "%");
+
+                        String sensor0 = recDataString.substring(0, 4);             //get sensor value from string between indices 1-5
+
+
+
+
+                        percent.setText(sensor0 + "%");
+
 
                         progressBar.findViewById(R.id.circle_progress_bar);
                         progressBar.setProgress(Integer.parseInt(String.valueOf(Akkustand)));
@@ -148,6 +155,34 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            //create device and set the MAC address
+            BluetoothDevice device = btAdapter.getRemoteDevice(address);
+
+            try {
+                btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+                Toast.makeText(getBaseContext(), "Socket creation complete", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "...Cant create BT Socket...");
+            }
+            // Establish the Bluetooth socket connection.
+            try {
+                btSocket.connect();
+                Toast.makeText(getBaseContext(), "Connected to Device", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "...Connected to Device...");
+
+            } catch (IOException e) {
+                try {
+                    Toast.makeText(getBaseContext(), "BT socket close", Toast.LENGTH_LONG).show();
+                    btSocket.close();
+                } catch (IOException e2) {
+
+                    //insert code to deal with this
+                }
+            }
+            mConnectedThread = new ConnectedThread(btSocket);
+            mConnectedThread.start();
 
             Toast.makeText(getApplicationContext(), "Auf Verbinden geklickt!", Toast.LENGTH_SHORT).show();
 
@@ -192,49 +227,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //create device and set the MAC address
-        BluetoothDevice device = btAdapter.getRemoteDevice(address);
-
-        try {
-            btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-        } catch (IOException e) {
-            Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "...Cant create BT Socket...");
-        }
-        // Establish the Bluetooth socket connection.
-        try {
-            btSocket.connect();
-            Toast.makeText(getBaseContext(), "Connected to Device", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "...Connected to Device...");
-
-        } catch (IOException e) {
-            try {
-                btSocket.close();
-            } catch (IOException e2) {
-                //insert code to deal with this
-            }
-        }
-        mConnectedThread = new ConnectedThread(btSocket);
-        mConnectedThread.start();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        try
-        {
-            //Don't leave Bluetooth sockets open when leaving activity
-            btSocket.close();
-            Log.d(TAG, "...In onPause...");
-        } catch (IOException e2) {
-            //insert code to deal with this
-        }
-    }
     private void checkBTState() {
         // Check for Bluetooth support and then check to make sure it is turned on
 
