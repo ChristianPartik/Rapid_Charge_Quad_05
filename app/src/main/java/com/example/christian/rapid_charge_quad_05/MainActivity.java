@@ -27,6 +27,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
+
 import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +43,7 @@ import fragments.kamera_fragment;
 import fragments.karte_fragement;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ColorPicker.OnColorChangedListener {
 
     private static String address = "98:D3:31:40:4D:A9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -58,7 +62,9 @@ public class MainActivity extends AppCompatActivity
 
     Handler bluetoothIn;
 
-
+    ColorPicker picker;
+    ValueBar valueBar;
+    SaturationBar saturationBar;
 
 
 
@@ -137,9 +143,38 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
+        //Colorpicker
+        picker.findViewById(R.id.picker);
+//        SVBar svBar = (SVBar) findViewById(R.id.svbar);
+//        OpacityBar opacityBar = (OpacityBar) findViewById(R.id.opacitybar);
+//        saturationBar.findViewById(R.id.saturationbar);
+        valueBar.findViewById(R.id.valuebar);
+//         picker.addSVBar(svBar);
+//        picker.addOpacityBar(opacityBar);
+//        picker.addSaturationBar(saturationBar);
+        picker.addValueBar(valueBar);
+
+        //To get the color
+        picker.getColor();
+
+        //To set the old selected color u can do it like this
+        picker.setOldCenterColor(picker.getColor());
+        // adds listener to the colorpicker which is implemented
+        //in the activity
+        picker.setOnColorChangedListener(this);
+
+        //to turn of showing the old color
+        picker.setShowOldCenterColor(false);
+
+        //adding onChangeListeners to bars
+//      opacitybar.setOnOpacityChangeListener(new OnOpacityChangeListener)
+//         valuebar.setOnValueChangeListener(new NumberPicker.OnValueChangeListener …)
+//      saturationBar.setOnSaturationChangeListener(new OnSaturationChangeListener …)
+
 
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -259,6 +294,12 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
+    @Override
+    public void onColorChanged(int color) {
+
+    }
+
     private class ConnectedThread extends Thread {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;

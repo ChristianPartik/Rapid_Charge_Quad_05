@@ -6,15 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.christian.rapid_charge_quad_05.R;
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
 
 /**
  * Created by Christian on 06.03.2016.
  */
-public class beleuchtung_fragment extends Fragment {
+public class beleuchtung_fragment extends Fragment  {
+
 
 
 
@@ -26,6 +28,4 @@ public class beleuchtung_fragment extends Fragment {
 
         return rootview;
     }
-
-
 }
