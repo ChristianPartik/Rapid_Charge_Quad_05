@@ -7,14 +7,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-    <com.larswerkman.holocolorpicker.ValueBar
-        android:id="@+id/valuebar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/picker"
-        android:layout_alignStart="@+id/picker"
-        android:layout_marginBottom="73dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <com.larswerkman.holocolorpicker.SaturationBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/picker"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/saturationbar"/>
+
 
 </RelativeLayout>

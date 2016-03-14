@@ -1,28 +1,21 @@
 package com.example.christian.rapid_charge_quad_05;
 
-import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothSocket;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.renderscript.Sampler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +24,6 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,8 +40,7 @@ public class MainActivity extends AppCompatActivity
     private static String address = "98:D3:31:40:4D:A9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     final int handlerState = 0;
-    String  sensor1;
-    Integer Akkustand ;
+
 
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -57,14 +48,11 @@ public class MainActivity extends AppCompatActivity
     private BluetoothSocket btSocket = null;
     private ConnectedThread mConnectedThread;
     private StringBuilder recDataString = new StringBuilder();
-    private ProgressBar progressBar;
-    private TextView textView, online, percent;
+
 
     Handler bluetoothIn;
 
-    ColorPicker picker;
-    ValueBar valueBar;
-    SaturationBar saturationBar;
+
 
 
 
@@ -89,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
         //Bluetooth
+
 
 
 
@@ -143,17 +132,19 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
+
         //Colorpicker
-        picker.findViewById(R.id.picker);
+        ColorPicker picker = (ColorPicker)findViewById(R.id.picker);
 //        SVBar svBar = (SVBar) findViewById(R.id.svbar);
 //        OpacityBar opacityBar = (OpacityBar) findViewById(R.id.opacitybar);
-//        saturationBar.findViewById(R.id.saturationbar);
-        valueBar.findViewById(R.id.valuebar);
+       SaturationBar saturationBar = (SaturationBar)findViewById(R.id.saturationbar);
+//        ValueBar valueBar = (ValueBar)findViewById(R.id.valuebar);
 //         picker.addSVBar(svBar);
 //        picker.addOpacityBar(opacityBar);
-//        picker.addSaturationBar(saturationBar);
-        picker.addValueBar(valueBar);
 
+        picker.getColor();
+
+/*      picker.addValueBar(valueBar);
         //To get the color
         picker.getColor();
 
@@ -171,7 +162,7 @@ public class MainActivity extends AppCompatActivity
 //         valuebar.setOnValueChangeListener(new NumberPicker.OnValueChangeListener …)
 //      saturationBar.setOnSaturationChangeListener(new OnSaturationChangeListener …)
 
-
+*/
 
     }
 
@@ -352,4 +343,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
 }
+
