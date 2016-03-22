@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     final int handlerState = 0;
 
-
+    private static String blau, rot, gün;
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter btAdapter = null;
@@ -74,17 +74,13 @@ public class MainActivity extends AppCompatActivity
             //Fragment Manager
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
-        //Colorpicker
-
-
+        //Colorpicker senden
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(rot);
+        Toast.makeText(getApplicationContext(), "Rot"+rot, Toast.LENGTH_SHORT).show();
 
 
         //Bluetooth
-
-
-
-
-
         btAdapter = BluetoothAdapter.getDefaultAdapter();               //Check if Bluetooth is supported on the device
 
         checkBTState();                                                 //Go into subroutine checkBTState
@@ -136,36 +132,6 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        //Colorpicker
-//        ColorPicker picker = (ColorPicker)findViewById(R.id.picker);
-//        SVBar svBar = (SVBar) findViewById(R.id.svbar);
-//        OpacityBar opacityBar = (OpacityBar) findViewById(R.id.opacitybar);
-//       SaturationBar saturationBar = (SaturationBar)findViewById(R.id.saturationbar);
-//        ValueBar valueBar = (ValueBar)findViewById(R.id.valuebar);
-//         picker.addSVBar(svBar);
-//        picker.addOpacityBar(opacityBar);
-
-//        picker.getColor();
-
-/*      picker.addValueBar(valueBar);
-        //To get the color
-        picker.getColor();
-
-        //To set the old selected color u can do it like this
-        picker.setOldCenterColor(picker.getColor());
-        // adds listener to the colorpicker which is implemented
-        //in the activity
-        picker.setOnColorChangedListener(this);
-
-        //to turn of showing the old color
-        picker.setShowOldCenterColor(false);
-
-        //adding onChangeListeners to bars
-//      opacitybar.setOnOpacityChangeListener(new OnOpacityChangeListener)
-//         valuebar.setOnValueChangeListener(new NumberPicker.OnValueChangeListener …)
-//      saturationBar.setOnSaturationChangeListener(new OnSaturationChangeListener …)
-
-*/
 
     }
 

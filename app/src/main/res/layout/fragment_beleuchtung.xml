@@ -10,18 +10,45 @@
         android:id="@+id/color_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <com.larswerkman.holocolorpicker.SaturationBar
+    <com.larswerkman.holocolorpicker.ValueBar
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/saturationbar"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/color_picker"
+        android:id="@+id/valuebar"
+        android:layout_below="@+id/Blau"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/Rot"
+        android:layout_below="@+id/color_picker"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/Grün"
+        android:layout_below="@+id/Rot"
+        android:layout_alignLeft="@+id/Rot"
+        android:layout_alignStart="@+id/Rot" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/Blau"
+        android:layout_below="@+id/Grün"
+        android:layout_alignRight="@+id/Grün"
+        android:layout_alignEnd="@+id/Grün" />
 
 
 </RelativeLayout>
