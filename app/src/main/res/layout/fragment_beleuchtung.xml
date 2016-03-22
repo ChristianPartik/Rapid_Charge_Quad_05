@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
 
     <com.larswerkman.holocolorpicker.ColorPicker
-        android:id="@+id/picker"
+        android:id="@+id/color_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <com.larswerkman.holocolorpicker.SaturationBar
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/picker"
+        android:id="@+id/saturationbar"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/color_picker"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/saturationbar"/>
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

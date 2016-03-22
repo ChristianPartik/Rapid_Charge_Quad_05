@@ -29,10 +29,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
+
 import fragments.akku_fragment;
 import fragments.beleuchtung_fragment;
 import fragments.kamera_fragment;
 import fragments.karte_fragement;
+
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ColorPicker.OnColorChangedListener {
@@ -49,12 +52,7 @@ public class MainActivity extends AppCompatActivity
     private ConnectedThread mConnectedThread;
     private StringBuilder recDataString = new StringBuilder();
 
-
     Handler bluetoothIn;
-
-
-
-
 
 
     @Override
@@ -76,6 +74,11 @@ public class MainActivity extends AppCompatActivity
             //Fragment Manager
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
+        //Colorpicker
+
+
+
+
         //Bluetooth
 
 
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
-                if (msg.what == handlerState) {                                     //if message is what we want
+                if (msg.what == handlerState) {                                      //if message is what we want
                     String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);                                      //keep appending to string until ~
                     Toast.makeText(getApplicationContext(), "empfange", Toast.LENGTH_LONG).show();
@@ -134,15 +137,15 @@ public class MainActivity extends AppCompatActivity
         };
 
         //Colorpicker
-        ColorPicker picker = (ColorPicker)findViewById(R.id.picker);
+//        ColorPicker picker = (ColorPicker)findViewById(R.id.picker);
 //        SVBar svBar = (SVBar) findViewById(R.id.svbar);
 //        OpacityBar opacityBar = (OpacityBar) findViewById(R.id.opacitybar);
-       SaturationBar saturationBar = (SaturationBar)findViewById(R.id.saturationbar);
+//       SaturationBar saturationBar = (SaturationBar)findViewById(R.id.saturationbar);
 //        ValueBar valueBar = (ValueBar)findViewById(R.id.valuebar);
 //         picker.addSVBar(svBar);
 //        picker.addOpacityBar(opacityBar);
 
-        picker.getColor();
+//        picker.getColor();
 
 /*      picker.addValueBar(valueBar);
         //To get the color
@@ -181,6 +184,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
         return true;
     }
 
@@ -245,6 +250,8 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
+
+
         if (id == R.id.nav_kamera) {
 
             fragmentManager.beginTransaction().replace(R.id.content_main, new kamera_fragment()).commit();
@@ -260,6 +267,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_beleuchtung) {
 
             fragmentManager.beginTransaction().replace(R.id.content_main, new beleuchtung_fragment()).commit();
+
 
         }
 

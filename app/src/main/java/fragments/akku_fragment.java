@@ -38,10 +38,4 @@ public class akku_fragment extends Fragment {
         return rootview;
     }
 
-    private class eingabe extends MainActivity{
-
-
-
-
-    }
 }
