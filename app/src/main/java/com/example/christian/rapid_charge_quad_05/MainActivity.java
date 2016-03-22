@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     final int handlerState = 0;
 
-    private static String blau, rot, gün;
+
+
+
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter btAdapter = null;
@@ -74,10 +76,15 @@ public class MainActivity extends AppCompatActivity
             //Fragment Manager
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
-        //Colorpicker senden
+        //Colorpicker empfangen von fragment
         Intent intent = getIntent();
-        String message = intent.getStringExtra(rot);
-        Toast.makeText(getApplicationContext(), "Rot"+rot, Toast.LENGTH_SHORT).show();
+        Bundle bundle = intent.getExtras();
+
+        String rot = bundle.getString("Rot",null);
+        String blau = bundle.getString("Blau");
+        String grün = bundle.getString("Grün");
+       // Toast.makeText(getApplicationContext(), "Rot"+rot, Toast.LENGTH_SHORT).show();
+
 
 
         //Bluetooth
@@ -316,6 +323,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
 
 
 }

@@ -22,7 +22,8 @@ import com.larswerkman.holocolorpicker.ValueBar;
 /**
  * Created by Christian on 06.03.2016.
  */
-public class beleuchtung_fragment extends Fragment implements ColorPicker.OnColorChangedListener, ColorPicker.OnColorSelectedListener {
+public class beleuchtung_fragment extends Fragment implements
+        ColorPicker.OnColorChangedListener {
 
 
 
@@ -62,7 +63,6 @@ public class beleuchtung_fragment extends Fragment implements ColorPicker.OnColo
 
         colorPicker.setOldCenterColor(colorPicker.getColor());
 
-        colorPicker.setOnColorSelectedListener(this);
         colorPicker.setOnColorChangedListener(this);
 
         colorPicker.setShowOldCenterColor(false);
@@ -78,7 +78,7 @@ public class beleuchtung_fragment extends Fragment implements ColorPicker.OnColo
         Toast.makeText(getActivity(), "onChange",Toast.LENGTH_SHORT);
 
         final int c;
-        String r, b, g, message = null;
+        String r, b, g;
 
         final TextView text = (TextView)getActivity().findViewById(R.id.Rot);
         final TextView text2 = (TextView)getActivity().findViewById(R.id.Grün);
@@ -102,15 +102,21 @@ public class beleuchtung_fragment extends Fragment implements ColorPicker.OnColo
             g = (String) text3.getText();
 
         Intent intent = new Intent(getActivity().getBaseContext(), MainActivity.class);
-        intent.putExtra("" + r, message);
+        Bundle bundle = new Bundle();
+
+        bundle.putString("Rot",r);
+        bundle.putString("Blau",b);
+        bundle.putString("Grün",g);
+        intent.putExtras(bundle);
         getActivity().startActivity(intent);
+
+
+
     }
 
 
-    @Override
-    public void onColorSelected(int color) {
-        Toast.makeText(getActivity(), "onSelect",Toast.LENGTH_SHORT);
-    }
+
+
 }
 
 
