@@ -34,18 +34,9 @@ public class beleuchtung_fragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_beleuchtung, container, false);
 
-
-
-
         return rootview;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT);
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -69,13 +60,12 @@ public class beleuchtung_fragment extends Fragment implements
 
 
 
+
     }
 
     @Override
     public void onColorChanged(final int color) {
 
-
-        Toast.makeText(getActivity(), "onChange",Toast.LENGTH_SHORT);
 
         final int c;
         String r, b, g;
@@ -95,7 +85,7 @@ public class beleuchtung_fragment extends Fragment implements
                 text2.setText(""+Color.green(c));
                 text3.setText(""+Color.blue(c));
             }
-        },200);
+        },2000);
 
             r = (String) text.getText();
             b = (String) text2.getText();

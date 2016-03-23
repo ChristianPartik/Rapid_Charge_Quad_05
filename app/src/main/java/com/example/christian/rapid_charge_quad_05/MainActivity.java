@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
+    private  String rot = "abc", blau, grün;
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter btAdapter = null;
@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity
         //Colorpicker empfangen von fragment
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-
-        String rot = bundle.getString("Rot",null);
-        String blau = bundle.getString("Blau");
-        String grün = bundle.getString("Grün");
-       // Toast.makeText(getApplicationContext(), "Rot"+rot, Toast.LENGTH_SHORT).show();
-
+        if(getIntent().getStringExtra("Rot") != null && getIntent().getStringExtra("Blau") != null && getIntent().getStringExtra("Grün") != null) {
+            rot = bundle.getString("Rot");
+            blau = bundle.getString("Blau");
+            grün = bundle.getString("Grün");
+            // Toast.makeText(getApplicationContext(), "Rot"+rot, Toast.LENGTH_SHORT).show();
+        }
 
 
         //Bluetooth
