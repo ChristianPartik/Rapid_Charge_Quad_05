@@ -1,6 +1,7 @@
 package fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,11 +23,11 @@ import com.larswerkman.holocolorpicker.ValueBar;
 /**
  * Created by Christian on 06.03.2016.
  */
-public class beleuchtung_fragment extends Fragment implements
-        ColorPicker.OnColorChangedListener {
+public class beleuchtung_fragment extends Fragment
+        implements ColorPicker.OnColorChangedListener
+        {
 
-
-
+       OnChangeListener mListener;
 
 
     @Nullable
@@ -66,9 +67,9 @@ public class beleuchtung_fragment extends Fragment implements
     @Override
     public void onColorChanged(final int color) {
 
-
         final int c;
-        String r, b, g;
+
+        final int[] colorrgb = new int[3];
 
         final TextView text = (TextView)getActivity().findViewById(R.id.Rot);
         final TextView text2 = (TextView)getActivity().findViewById(R.id.Grün);
@@ -79,34 +80,36 @@ public class beleuchtung_fragment extends Fragment implements
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-               // text.setTextColor(Color.rgb(Color.red(c), Color.green(c), Color.blue(c)));
-               // text.setText("Rot" + Color.red(c)+",Blau"+Color.blue(c)+",Grün"+Color.green(c));
-                text.setText(""+Color.red(c));
-                text2.setText(""+Color.green(c));
-                text3.setText(""+Color.blue(c));
+                // text.setTextColor(Color.rgb(Color.red(c), Color.green(c), Color.blue(c)));
+                // text.setText("Rot" + Color.red(c)+",Blau"+Color.blue(c)+",Grün"+Color.green(c));
+
+                text.setText("" + Color.red(c));
+                text2.setText("" + Color.green(c));
+                text3.setText("" + Color.blue(c));
+                colorrgb[0] = Color.red(c);
+                colorrgb[1] = Color.blue(c);
+                colorrgb[2] = Color.green(c);
+
+                mListener.onChangeListener(colorrgb);
+
             }
-        },2000);
-
-            r = (String) text.getText();
-            b = (String) text2.getText();
-            g = (String) text3.getText();
-
-        Intent intent = new Intent(getActivity().getBaseContext(), MainActivity.class);
-        Bundle bundle = new Bundle();
-
-        bundle.putString("Rot",r);
-        bundle.putString("Blau",b);
-        bundle.putString("Grün",g);
-        intent.putExtras(bundle);
-        getActivity().startActivity(intent);
-
-
+        },200);
 
     }
 
+            @Override
+            public void onAttach(Activity activity) {
+                super.onAttach(activity);
+                try {
+                    mListener = (OnChangeListener) activity;
+                } catch (ClassCastException e) {
+                    throw new ClassCastException(activity.toString() + " must implement OnColorChangeListener");
+                }
+            }
 
-
-
-}
+            public interface OnChangeListener{
+                void onChangeListener(int[] color);
+            }
+        }
 
 

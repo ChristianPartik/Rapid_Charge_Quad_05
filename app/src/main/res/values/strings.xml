@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Rapid_Charge_Quad_05</string>
+    <string name="app_name">Rapid Charge Quad</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Bluetooth connect</string>
 
-    <string name="percent_value">70%</string>
+    <string name="percent_value">20%</string>
 
     <integer name="Akkustand">20</integer>
 </resources>

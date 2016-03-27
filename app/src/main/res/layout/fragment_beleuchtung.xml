@@ -25,30 +25,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="0"
         android:id="@+id/Rot"
         android:layout_below="@+id/color_picker"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#ff0000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="0"
         android:id="@+id/Grün"
         android:layout_below="@+id/Rot"
         android:layout_alignLeft="@+id/Rot"
-        android:layout_alignStart="@+id/Rot" />
+        android:layout_alignStart="@+id/Rot"
+        android:textColor="#5af600" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="0"
         android:id="@+id/Blau"
         android:layout_below="@+id/Grün"
         android:layout_alignRight="@+id/Grün"
-        android:layout_alignEnd="@+id/Grün" />
+        android:layout_alignEnd="@+id/Grün"
+        android:textColor="#0011ff" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beleuchtung"
+        android:id="@+id/switch1"
+        android:layout_below="@+id/valuebar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:checked="false" />
 
 
 </RelativeLayout>

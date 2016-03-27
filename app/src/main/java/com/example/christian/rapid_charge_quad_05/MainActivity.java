@@ -35,10 +35,13 @@ import fragments.beleuchtung_fragment;
 import fragments.kamera_fragment;
 import fragments.karte_fragement;
 
+import static android.widget.Toast.LENGTH_LONG;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ColorPicker.OnColorChangedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        ColorPicker.OnColorChangedListener,
+        beleuchtung_fragment.OnChangeListener {
 
     private static String address = "98:D3:31:40:4D:A9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Navigation menu
@@ -76,15 +79,6 @@ public class MainActivity extends AppCompatActivity
             //Fragment Manager
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, new akku_fragment()).commit();
-        //Colorpicker empfangen von fragment
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if(getIntent().getStringExtra("Rot") != null && getIntent().getStringExtra("Blau") != null && getIntent().getStringExtra("Grün") != null) {
-            rot = bundle.getString("Rot");
-            blau = bundle.getString("Blau");
-            grün = bundle.getString("Grün");
-            // Toast.makeText(getApplicationContext(), "Rot"+rot, Toast.LENGTH_SHORT).show();
-        }
 
 
         //Bluetooth
@@ -121,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                                 progressBar.setProgress(Akkustand);
                             }catch (NumberFormatException nfm){
 
-                            Toast.makeText(getApplicationContext(), "Kann nicht konvertieren", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Kann nicht konvertieren", LENGTH_LONG).show();
                             }
 
 
@@ -131,10 +125,10 @@ public class MainActivity extends AppCompatActivity
 
                     }
                     else{
-                        Toast.makeText(getApplicationContext(), "Text kleiner als 0.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Text kleiner als 0.", LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "nicht was wir wollen", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "nicht was wir wollen", LENGTH_LONG).show();
                 }
             }
         };
@@ -176,28 +170,27 @@ public class MainActivity extends AppCompatActivity
             BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
             try {
+                //create a socket with UUID
                 btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-                Toast.makeText(getBaseContext(), "Socket creation complete", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Socket creation complete", LENGTH_LONG).show();
             } catch (IOException e) {
-                Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Socket creation failed", LENGTH_LONG).show();
                 Log.d(TAG, "...Cant create BT Socket...");
             }
             // Establish the Bluetooth socket connection.
             try {
                 btSocket.connect();
-                Toast.makeText(getBaseContext(), "Connected to Device", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Connected to Device", LENGTH_LONG).show();
                 Log.d(TAG, "...Connected to Device...");
-
+                //Set Status Text to "Online" from "Offline"
                 TextView online = (TextView)findViewById(R.id.textview_online);
-                online.setText("Online");
+//                online.setText("Online");
 
             } catch (IOException e) {
                 try {
-                    Toast.makeText(getBaseContext(), "BT socket close", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "BT socket close", LENGTH_LONG).show();
                     btSocket.close();
                 } catch (IOException e2) {
-
-                    //insert code to deal with this
                 }
             }
             mConnectedThread = new ConnectedThread(btSocket);
@@ -254,10 +247,12 @@ public class MainActivity extends AppCompatActivity
 
         // Emulator doesn't support Bluetooth and will return null
         if(btAdapter==null) {
+            // Write a message to user that BT is not supported
             Toast.makeText(getApplicationContext(), "Bluetooth Not supported.", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "...Bluetooth Not supported...");
         } else {
             if (btAdapter.isEnabled()) {
+                //Wenn BT eingeshalten ist
                 Log.d(TAG, "...Bluetooth is enabled...");
             } else {
                 //Ask user to turn on Bluetooth
@@ -265,6 +260,20 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             }
         }
+    }
+
+
+
+
+    @Override
+    public void onChangeListener(int[] color)  {
+        //if(color[0] != null && color[1] != null && color[2] != null ) {
+           // mConnectedThread.write("r" + color[0] + "b" + color[1] + "g" + color[2]);
+            //int a  = color[0].length()
+            mConnectedThread.write(address);
+           // Toast.makeText(getApplicationContext(), a , LENGTH_LONG).show();
+        //}
+
     }
 
     @Override
@@ -317,12 +326,13 @@ public class MainActivity extends AppCompatActivity
                 mmOutStream.write(msgBuffer);                //write bytes over BT connection via outstream
             } catch (IOException e) {
                 //if you cannot write, close the application
-                Toast.makeText(getBaseContext(), "Connection Failure", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Connection Failure", LENGTH_LONG).show();
                 finish();
 
             }
         }
     }
+
 
 
 

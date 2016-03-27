@@ -79,7 +79,8 @@
         android:text="Large Text"
         android:id="@+id/text_empfangen"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>
