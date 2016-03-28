@@ -21,14 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.SaturationBar;
-import com.larswerkman.holocolorpicker.ValueBar;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-
 
 import fragments.akku_fragment;
 import fragments.beleuchtung_fragment;
@@ -46,10 +43,8 @@ public class MainActivity extends AppCompatActivity
     private static String address = "98:D3:31:40:4D:A9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     final int handlerState = 0;
+    int Status = 0;
 
-
-
-    private  String rot = "abc", blau, grün;
     private static String TAG;
     private static final int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter btAdapter = null;
@@ -182,9 +177,7 @@ public class MainActivity extends AppCompatActivity
                 btSocket.connect();
                 Toast.makeText(getBaseContext(), "Connected to Device", LENGTH_LONG).show();
                 Log.d(TAG, "...Connected to Device...");
-                //Set Status Text to "Online" from "Offline"
-                TextView online = (TextView)findViewById(R.id.textview_online);
-//                online.setText("Online");
+                 Status = 1;
 
             } catch (IOException e) {
                 try {
@@ -197,6 +190,7 @@ public class MainActivity extends AppCompatActivity
             mConnectedThread.start();
 
             Toast.makeText(getApplicationContext(), "Auf Verbinden geklickt!", Toast.LENGTH_SHORT).show();
+
 
 
 
@@ -267,12 +261,63 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onChangeListener(int[] color)  {
-        //if(color[0] != null && color[1] != null && color[2] != null ) {
-           // mConnectedThread.write("r" + color[0] + "b" + color[1] + "g" + color[2]);
-            //int a  = color[0].length()
-            mConnectedThread.write(address);
-           // Toast.makeText(getApplicationContext(), a , LENGTH_LONG).show();
-        //}
+
+        if(Status != 0) {
+
+
+            int a = color[0];
+            int b = color[1];
+            int c = color[2];
+            int  x = 0, y = 0, z = 0;
+            String zero = "00", zero1 = "00", zero2 = "00";
+            //Rot
+            while(a>0){
+                a = a/10;
+                x++;
+            }
+            //Blau
+            while(b>0){
+                b = b/10;
+                y++;
+            }
+            //Grün
+            while(c>0){
+                c = c/10;
+                z++;
+            }
+            //Rot
+            if(x == 3){
+                 zero = "";
+            }else if(x == 2){
+                zero = "0";
+            }else if(x == 1){
+                zero = "00";
+            }
+            //Blau
+            if(y == 3){
+                zero1 = "";
+            }else if(y == 2){
+                zero1 = "0";
+            }else if(y == 1){
+                zero1 = "00";
+            }
+            //Grün
+            if(z == 3){
+                zero2 = "";
+            }else if(z == 2){
+                zero2 = "0";
+            }else if(z == 1){
+                zero2 = "00";
+            }
+
+            mConnectedThread.write("r" + zero + color[0] + "b"+ zero1 + color[1] + "g"+ zero2 + color[2]);
+
+            //Toast.makeText(getApplicationContext(), c , Toast.LENGTH_SHORT).show();
+
+        }
+        else{
+
+        }
 
     }
 
@@ -332,9 +377,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
-
-
 
 }
 
